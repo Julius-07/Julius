@@ -1,0 +1,11 @@
+设置终端显示
+echo "set terminal display"
+setenv PATH ${PATH}:${HOME}/xxxx
+set cred = "%{\e[0;31m%}"
+set cgre = "%{\e[0;32m%}"
+set cclr = "%{\e[m%}"
+set prompt="$cgre%n$cclr@%m<$cred%B%C2$cclr>% "
+alias setprompt 'set prompt="$cgre%n$cclr@%m<$cred%B%C2$cclr>% "'
+alias modtt '\echo -ne "\033]0;`basename $PWD`\007"'
+modtt
+alias cd 'cd \!*; setprompt; modtt; ls'
