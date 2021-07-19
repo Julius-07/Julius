@@ -1,4 +1,5 @@
 #!/bin/bash
+# alias rm "sh xxxx/remove.sh"
 PARA_CNT=$#
 TRASH_DIR=~/backup
 myfolder=`whoami`

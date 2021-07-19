@@ -33,6 +33,7 @@ set laststatus=2
 set nowrapscan
 set ruler
 set foldmethod=marker
+"set enc=utf-8
 
 "================= Shortcut setting ==============================================================="
 map <C-g> :NERDTreeToggle<CR>
@@ -46,15 +47,15 @@ map <C-h> <ESC>:call SetTitle() <ESC>
 
 "================= vim plug-in setting ============================================================"
 " SuperTab setting
-source C:\Users\÷ÏΩıÃŒ\OneDrive\Documents\Personal\software\gvim\SuperTab.vim
+source C:\Users\÷ÏΩıÃŒ\OneDrive\Documents\Personal\Julius\template\gvim\SuperTab.vim
 let g:SuperTabMappingFroward="<tap>"
 let g:SuperTabMappingBackward="<s-tap>"
 
 " Minbuf setting
-source C:\Users\÷ÏΩıÃŒ\OneDrive\Documents\Personal\software\gvim\minibufexpl.vim
+source C:\Users\÷ÏΩıÃŒ\OneDrive\Documents\Personal\Julius\template\gvim\minibufexpl.vim
 
 " Nerd tree setting
-source C:\Users\÷ÏΩıÃŒ\OneDrive\Documents\Personal\software\gvim\NERD_tree.vim
+source C:\Users\÷ÏΩıÃŒ\OneDrive\Documents\Personal\Julius\template\gvim\NERD_tree.vim
 "=================================================================================================="
 
 
@@ -86,7 +87,7 @@ endfunction
 
 
 "================= Auto insert file header ========================================================"
-autocmd BufNewFile *.v,*.sv ":call SetTitle()"
+autocmd BufNewFile *.v,*.sv,*.tcl,*.py ":call SetTitle()"
 
 """∂®“Â∫Ø ˝SetTitle£¨◊‘∂Ø≤Â»ÎŒƒº˛Õ∑ 
 func SetTitle() 
@@ -99,16 +100,40 @@ func SetTitle()
         call setline(5 , "// And the possession of use of this file requires a written lincese from: personal")
         call setline(6 , "//---------------------------------------------------------------------------------") 
         call setline(7 , "// Filename     : ".expand("%"))
-        call setline(8 , "// Project      : xxxx")
-        call setline(9 , "// Description  : xxxx")
+        call setline(8 , "// Project      : ")
+        call setline(9 , "// Description  : ")
         call setline(10, "//---------------------------------------------------------------------------------") 
-        call setline(11, "// Author       : zhujintao")
-        call setline(12, "// Created On   : ".strftime("%c"))
-        call setline(13, "// Last Modified: ".strftime("%c"))
+        call setline(11, "") 
+        call setline(12, "//---------------------------------------------------------------------------------") 
+        call setline(13, "// Frunction    : ") 
         call setline(14, "//---------------------------------------------------------------------------------") 
-        call setline(15, "// Revision     : ")
-        call setline(16, "//---------------------------------------------------------------------------------") 
-        call setline(17, "") 
+        call setline(15, "// Author       : zhujintao")
+        call setline(16, "// Created On   : ".strftime("%c"))
+        call setline(17, "// Last Modified: ".strftime("%c"))
+        call setline(18, "//---------------------------------------------------------------------------------") 
+        call setline(19, "// Version      : ")
+        call setline(20, "//   V1.0       : ")
+        call setline(21, "//     Note     : First version")
+        call setline(22, "//---------------------------------------------------------------------------------") 
+        call setline(23, "") 
+        call setline(24, "") 
+    "endif
+    else
+        call setline(1 , "##---------------------------------------------------------------------------------") 
+        call setline(2 , "## Filename     : ".expand("%"))
+        call setline(3 , "## Project      : ")
+        call setline(4 , "## Description  : ")
+        call setline(5 , "##---------------------------------------------------------------------------------") 
+        call setline(6 , "## Author       : zhujintao")
+        call setline(7 , "## Created On   : ".strftime("%c"))
+        call setline(8 , "## Last Modified: ".strftime("%c"))
+        call setline(9 , "##---------------------------------------------------------------------------------") 
+        call setline(10, "## Version      : ")
+        call setline(11, "##   V1.0       : ")
+        call setline(12, "##     Note     : First version")
+        call setline(13, "##---------------------------------------------------------------------------------") 
+        call setline(14, "") 
+        call setline(15, "") 
     endif
 endfunc
 "=================================================================================================="
@@ -118,24 +143,19 @@ endfunc
 "================= Auto update lasy modified time ================================================="
 function SetLastModifiedTime(lineno)
     let modif_time = strftime("%c")
-    if a:lineno == -1
-        let line =getline(13)
-    else 
-        let line = getline(a:lineno)
-    endif
+    let line = getline(a:lineno)
+
     if line =~ 'Last Modified'
         let line = substitute(line, ':.*', ': '.modif_time, "")
     else
         let line = line
     endif
-    if a:lineno == "-1"
-        call setline(13, line)
-    else 
-        call append(a:lineno, line)
-    endif
+
+    call setline(a:lineno, line)
 endfunction
 
-au BufWrite *.* call SetLastModifiedTime(-1)
+au BufWrite *.v,*.sv   call SetLastModifiedTime(17)
+au BufWrite *.tcl,*.py call SetLastModifiedTime(8)
 "=================================================================================================="
 
 
