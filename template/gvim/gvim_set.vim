@@ -25,7 +25,7 @@ set lines =42 columns =172
 set autoindent
 set smartindent
 "set guifont=Courier\ 10\ pitch\ 20
-set guifont=Consolas:h14:cANSI:qDRAFT
+set guifont=Consolas:h16:cANSI:qDRAFT
 set nocompatible
 "set bckspace=indent,eol,start
 set laststatus=2
@@ -40,6 +40,7 @@ map <C-g> :NERDTreeToggle<CR>
 map <A-a> oalways @(posedge clk or negedge rst_n) begin<ESC>oif(!rst_n) begin<ESC>oend<ESC>oelse if() begin<ESC>oend<ESC>oend<ESC><CR>
 map <A-1> <ESC>:call AutoInst1()<ESC>
 map <A-2> <ESC>:call AutoInst2()<ESC>
+map <A-0> <ESC>:call AutoInst3()<ESC>
 map <C-h> <ESC>:call SetTitle() <ESC>
 "=================================================================================================="
 
@@ -47,15 +48,15 @@ map <C-h> <ESC>:call SetTitle() <ESC>
 
 "================= vim plug-in setting ============================================================"
 " SuperTab setting
-source C:\Users\朱锦涛\OneDrive\Documents\Personal\Julius\template\gvim\SuperTab.vim
+source C:\Users\zhujintao\OneDrive\Documents\Personal\Julius\template\gvim\SuperTab.vim
 let g:SuperTabMappingFroward="<tap>"
 let g:SuperTabMappingBackward="<s-tap>"
 
 " Minbuf setting
-source C:\Users\朱锦涛\OneDrive\Documents\Personal\Julius\template\gvim\minibufexpl.vim
+source C:\Users\zhujintao\OneDrive\Documents\Personal\Julius\template\gvim\minibufexpl.vim
 
 " Nerd tree setting
-source C:\Users\朱锦涛\OneDrive\Documents\Personal\Julius\template\gvim\NERD_tree.vim
+source C:\Users\zhujintao\OneDrive\Documents\Personal\Julius\template\gvim\NERD_tree.vim
 "=================================================================================================="
 
 
@@ -82,22 +83,33 @@ function AutoInst2()
     :'<,'>s/\(.\{50\}\) *(\(.\{30\}\) *)/\1(\2)/g
     :'<,'>s/^ *\(\/\/.*\)/    \1/g
 endfunction
+
+function AutoInst3()
+    :'<,'>s/, *\/\/.*/,/g
+    :'<,'>s/ *, */,/g
+    :'<,'>s/ *$//g
+    :'<,'>s/.*input.* \(\w*\).*/    .\1            (\1),  \/\/ I/g
+    :'<,'>s/.*output.* \(\w*\).*/    .\1            (\1),  \/\/ O/g
+    :'<,'>s/\( *\)\(\.\w*\)\( *\)(\(.*\))\(.*\)/    \2\3                                                               (\4                                                                        )\5/g
+    :'<,'>s/\(.\{32\}\) *(\(.\{27\}\) *)/\1(\2)/g
+endfunction
 "=================================================================================================="
 
 
 
 "================= Auto insert file header ========================================================"
 autocmd BufNewFile *.v,*.sv,*.tcl,*.py ":call SetTitle()"
+"autocmd BufNewFile *.v,*.sv,*.tcl,*.py exec ":call SetTitle()"
 
 """定义函数SetTitle，自动插入文件头 
 func SetTitle() 
     "如果文件类型为Verilog文件 
     if &filetype == 'verilog'
         call setline(1 , "//---------------------------------------------------------------------------------") 
-        call setline(2 , "// Copyright (c) by personal. All reghts reserved.")
+        call setline(2 , "// Copyright (C) by XXXX. All rights reserved.")
         call setline(3 , "// ")
-        call setline(4 , "// This model is confidential and proprietary property of personal.")
-        call setline(5 , "// And the possession of use of this file requires a written lincese from: personal")
+        call setline(4 , "// This model is confidential and proprietary property of XXXX.")
+        call setline(5 , "// And the possession of use of this file requires a written lincese from: XXXX")
         call setline(6 , "//---------------------------------------------------------------------------------") 
         call setline(7 , "// Filename     : ".expand("%"))
         call setline(8 , "// Project      : ")
@@ -157,5 +169,5 @@ endfunction
 au BufWrite *.v,*.sv   call SetLastModifiedTime(17)
 au BufWrite *.tcl,*.py call SetLastModifiedTime(8)
 "=================================================================================================="
-
+"Not an editor command: ^M --> :set fileformat=unix
 
